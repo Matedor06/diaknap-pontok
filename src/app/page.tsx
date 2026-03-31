@@ -45,7 +45,7 @@ export default function Home() {
         {/* Fő Címsor */}
         <header className="text-center space-y-4">
           <h1 className="text-5xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400">
-            Diáknap Eredmények 🏆
+            Diáknap Eredmények
           </h1>
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
             Élő pontozás és állomásonkénti részletek
@@ -56,7 +56,6 @@ export default function Home() {
         <section>
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
             <span>Összesített Ranglista</span>
-            <span className="text-yellow-500">⭐</span>
           </h2>
           <div className="bg-white dark:bg-zinc-800 shadow-xl rounded-2xl p-6 md:p-8">
             {sortedLeaderboard.length === 0 ? (
@@ -95,7 +94,6 @@ export default function Home() {
         <section>
           <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
             <span>Állomásonkénti Pontok</span>
-            <span>📍</span>
           </h2>
           {sortedStations.length === 0 ? (
             <p className="text-zinc-500 dark:text-zinc-400 italic">Még nincsenek adatok az állomásokhoz.</p>

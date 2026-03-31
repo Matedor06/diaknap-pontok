@@ -49,9 +49,9 @@ export default function TanarPage() {
 
     const res = await fetch('/api/points', { method: 'DELETE' });
     if(res.ok) {
-      alert('✅ Minden adat sikeresen törölve! Tiszta lappal indultok.');
+      alert('Minden adat sikeresen törölve! Tiszta lappal indultok.');
     } else {
-      alert('❌ Hiba történt a törlés során!');
+      alert('Hiba történt a törlés során!');
     }
   };
 
@@ -87,7 +87,7 @@ export default function TanarPage() {
   if (!loggedInStation) {
     return (
       <main className="p-8 max-w-md mx-auto mt-12">
-        <h1 className="text-3xl font-bold mb-6 text-center">Tanári Belépés 🔐</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Tanári Belépés</h1>
         <form onSubmit={handleLogin} className="flex flex-col gap-4 bg-zinc-800 p-8 rounded-xl shadow-lg border border-gray-700">
           <label className="font-bold text-gray-200">Állomás jelszava (PIN kód):</label>
           <input 
@@ -111,7 +111,7 @@ export default function TanarPage() {
     return (
       <main className="p-8 max-w-md mx-auto mt-12 text-center flex flex-col gap-6 items-center">
         <div className="bg-red-900/20 p-8 rounded-xl border border-red-500">
-          <h1 className="text-3xl font-black text-red-500 mb-2">VESZÉLYZÓNA ⚠️</h1>
+          <h1 className="text-3xl font-black text-red-500 mb-2">VESZÉLYZÓNA</h1>
           <p className="text-gray-300 mb-8">Ezen a felületen tudod véglegesen kitörölni a tesztelés alatt beírt pontokat. Csak a diáknap reggelén használd!</p>
           
           <button onClick={handleClearAll} className="bg-red-600 hover:bg-red-700 text-white p-5 font-bold rounded-lg shadow-xl shadow-red-600/50 w-full text-lg transition-transform active:scale-95">
@@ -129,7 +129,7 @@ export default function TanarPage() {
   return (
     <main className="p-4 sm:p-8 max-w-md mx-auto">
       <div className="flex justify-between items-center mb-6 bg-zinc-900 p-4 rounded-lg border border-gray-700">
-        <h1 className="text-lg font-bold text-blue-400">📍 {loggedInStation}</h1>
+        <h1 className="text-lg font-bold text-blue-400">{loggedInStation}</h1>
         <button onClick={() => { setLoggedInStation(null); setPin(''); }} className="text-sm bg-gray-700 hover:bg-red-600 transition-colors px-3 py-2 rounded font-bold text-white">
           Kilépés
         </button>
