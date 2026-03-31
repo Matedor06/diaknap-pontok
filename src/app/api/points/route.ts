@@ -21,20 +21,47 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // A Supabase "upsert" funkciója a legjobb megoldás: 
-    // Automatikusan UPDATE-et csinál, ha már létezik az azonosító, és INSERT-et, ha még nem.
-    const { error } = await supabase.from('points').upsert({
-      helyszin: body.helyszin,
-      osztaly: body.osztaly,
-      pont: Number(body.pont)
-    });
+    // 1. Először megkeressük, hogy adtak-e már pontot ennek az osztálynak ezen a helyszínen
+    const { data: existingData, error: searchError } = await supabase
+      .from('points')
+      .select('id')
+      .eq('osztaly', body.osztaly)
+      .eq('helyszin', body.helyszin);
 
-    if (error) {
-      console.error('Mentési hiba:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (searchError) {
+      console.error('Keresési hiba:', searchError);
+      return NextResponse.json({ error: searchError.message }, { status: 500 });
     }
-    
-    return NextResponse.json({ success: true, message: 'Pontszám sikeresen rögzítve/felülírva!' });
+
+    if (existingData && existingData.length > 0) {
+      // 2. HA VAN TALÁLAT (már adtak itt pontot): Felülírjuk az id alapján a pontot
+      const { error } = await supabase
+        .from('points')
+        .update({ pont: Number(body.pont) })
+        .eq('id', existingData[0].id);
+
+      if (error) {
+        console.error('Frissítési hiba:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ success: true, message: 'Pontszám sikeresen felülírva!' });
+
+    } else {
+      // 3. HA MÉG NINCS ILYEN TALÁLAT: Beszúrjuk, mint egy teljesen új sort
+      const { error } = await supabase.from('points').insert([
+        {
+          helyszin: body.helyszin,
+          osztaly: body.osztaly,
+          pont: Number(body.pont)
+        }
+      ]);
+
+      if (error) {
+        console.error('Mentési hiba:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ success: true, message: 'Új pontszám sikeresen rögzítve!' });
+    }
   } catch (err: any) {
     console.error('Szerver hiba POST hívásnál:', err);
     return NextResponse.json({ error: err.message || 'Ismeretlen szerver hiba' }, { status: 500 });
