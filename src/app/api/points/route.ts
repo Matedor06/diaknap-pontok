@@ -21,19 +21,19 @@ export async function POST(request: Request) {
   const body = await request.json();
   
   // 1. Megnézzük, van-e már rögzítve pont ennek az osztálynak, ezen a helyszínen
-  const { data: existingData } = await supabase
+  const { data: existingData, error: searchError } = await supabase
     .from('points')
     .select('id')
     .eq('osztaly', body.osztaly)
-    .eq('helyszin', body.helyszin)
-    .single();
+    .eq('helyszin', body.helyszin);
 
-  if (existingData) {
-    // 2. HA VAN: Akkor UPDATE (Felülírás)
+  // Ha az existingData tömb nem üres, akkor van már ilyen
+  if (existingData && existingData.length > 0) {
+    // 2. HA VAN: Akkor UPDATE (Felülírás) az első találaton
     const { error } = await supabase
       .from('points')
       .update({ pont: Number(body.pont) })
-      .eq('id', existingData.id);
+      .eq('id', existingData[0].id);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ success: true, message: 'Rögzített pontszám sikeresen felülírva!' });
