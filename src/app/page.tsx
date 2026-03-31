@@ -39,25 +39,25 @@ export default function Home() {
   const sortedStations = Object.keys(stations).sort();
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 p-8 font-sans">
-      <main className="max-w-5xl mx-auto flex flex-col gap-12">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 p-4 sm:p-8 font-sans">
+      <main className="max-w-5xl mx-auto flex flex-col gap-8 sm:gap-12">
         
         {/* Fő Címsor */}
-        <header className="text-center space-y-4">
-          <h1 className="text-5xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400">
+        <header className="text-center space-y-2 sm:space-y-4 pt-4">
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400">
             Diáknap Eredmények
           </h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
             Élő pontozás és állomásonkénti részletek
           </p>
         </header>
 
         {/* Eredménytábla (Összesített) */}
         <section>
-          <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
             <span>Összesített Ranglista</span>
           </h2>
-          <div className="bg-white dark:bg-zinc-800 shadow-xl rounded-2xl p-6 md:p-8">
+          <div className="bg-white dark:bg-zinc-800 shadow-xl rounded-2xl p-4 sm:p-6 md:p-8">
             {sortedLeaderboard.length === 0 ? (
               <p className="text-center text-zinc-500 dark:text-zinc-400 italic py-8">
                 Még nincs regisztrált pont...
@@ -67,10 +67,10 @@ export default function Home() {
                 {sortedLeaderboard.map(([osztaly, pont], i) => (
                   <li
                     key={osztaly}
-                    className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-700 pb-4 last:border-0 last:pb-0 text-xl md:text-2xl"
+                    className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-700 pb-3 sm:pb-4 last:border-0 last:pb-0 text-lg sm:text-xl md:text-2xl"
                   >
-                    <span className="flex items-center gap-4">
-                      <span className={`font-bold w-10 h-10 flex items-center justify-center rounded-full ${
+                    <span className="flex items-center gap-3 sm:gap-4">
+                      <span className={`font-bold w-8 h-8 sm:w-10 sm:h-10 text-sm sm:text-base flex items-center justify-center rounded-full ${
                         i === 0 ? "bg-yellow-400 text-yellow-900" :
                         i === 1 ? "bg-gray-300 text-gray-800" :
                         i === 2 ? "bg-amber-600 text-white" :
@@ -92,7 +92,7 @@ export default function Home() {
 
         {/* Állomásonkénti részletek */}
         <section>
-          <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 flex items-center gap-2">
             <span>Állomásonkénti Pontok</span>
           </h2>
           {sortedStations.length === 0 ? (

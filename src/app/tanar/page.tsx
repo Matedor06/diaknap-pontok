@@ -86,9 +86,9 @@ export default function TanarPage() {
   // 1. BEJELENTKEZŐ / JELSZÓ KÉPERNYŐ
   if (!loggedInStation) {
     return (
-      <main className="p-8 max-w-md mx-auto mt-12">
-        <h1 className="text-3xl font-bold mb-6 text-center">Tanári Belépés</h1>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 bg-zinc-800 p-8 rounded-xl shadow-lg border border-gray-700">
+      <main className="p-4 sm:p-8 max-w-md mx-auto mt-8 sm:mt-12">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Tanári Belépés</h1>
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 bg-zinc-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700">
           <label className="font-bold text-gray-200">Állomás jelszava (PIN kód):</label>
           <input 
             type="password" 
@@ -109,9 +109,9 @@ export default function TanarPage() {
   // 2. ADMINISZTRÁTORI KÉPERNYŐ (Minden törlése)
   if (loggedInStation === 'ADMIN') {
     return (
-      <main className="p-8 max-w-md mx-auto mt-12 text-center flex flex-col gap-6 items-center">
-        <div className="bg-red-900/20 p-8 rounded-xl border border-red-500">
-          <h1 className="text-3xl font-black text-red-500 mb-2">VESZÉLYZÓNA</h1>
+      <main className="p-4 sm:p-8 max-w-md mx-auto mt-8 sm:mt-12 text-center flex flex-col gap-6 items-center">
+        <div className="bg-red-900/20 p-6 sm:p-8 rounded-xl border border-red-500">
+          <h1 className="text-2xl sm:text-3xl font-black text-red-500 mb-2">VESZÉLYZÓNA</h1>
           <p className="text-gray-300 mb-8">Ezen a felületen tudod véglegesen kitörölni a tesztelés alatt beírt pontokat. Csak a diáknap reggelén használd!</p>
           
           <button onClick={handleClearAll} className="bg-red-600 hover:bg-red-700 text-white p-5 font-bold rounded-lg shadow-xl shadow-red-600/50 w-full text-lg transition-transform active:scale-95">
@@ -135,20 +135,20 @@ export default function TanarPage() {
         </button>
       </div>
 
-      <form onSubmit={submitPont} className="flex flex-col gap-4 bg-zinc-800 p-6 rounded-xl shadow-lg border border-gray-700">
+      <form onSubmit={submitPont} className="flex flex-col gap-4 bg-zinc-800 p-4 sm:p-6 rounded-xl shadow-lg border border-gray-700">
         <label className="font-bold text-gray-200">Melyik osztály pontozod?</label>
-        <select value={osztaly} onChange={(e) => setOsztaly(e.target.value)} className="p-4 border border-gray-600 rounded-lg text-black bg-white font-bold text-xl outline-none focus:ring-4 ring-blue-500 cursor-pointer">
+        <select value={osztaly} onChange={(e) => setOsztaly(e.target.value)} className="p-3 sm:p-4 border border-gray-600 rounded-lg text-black bg-white font-bold text-lg sm:text-xl outline-none focus:ring-4 ring-blue-500 cursor-pointer">
           {['9.A', '9.B', '10.A', '10.B', '11.A', '11.B', '12.A', '12.B'].map(o => <option key={o}>{o}</option>)}
         </select>
 
-        <label className="font-bold text-gray-200 mt-4">Kiosztott pont (0-10):</label>
-        <div className="flex items-center gap-4">
-          <button type="button" onClick={() => setPont(p => Math.max(0, p - 1))} className="bg-gray-600 w-14 h-14 rounded-full text-2xl font-bold hover:bg-gray-500">-</button>
-          <input type="number" min="0" max="10" value={pont} onChange={(e) => setPont(Number(e.target.value))} className="flex-1 p-2 border border-gray-600 rounded-lg text-black bg-white text-5xl text-center font-black outline-none focus:ring-4 ring-blue-500" />
-          <button type="button" onClick={() => setPont(p => Math.min(10, p + 1))} className="bg-gray-600 w-14 h-14 rounded-full text-2xl font-bold hover:bg-gray-500">+</button>
+        <label className="font-bold text-gray-200 mt-2 sm:mt-4">Kiosztott pont (0-10):</label>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button type="button" onClick={() => setPont(p => Math.max(0, p - 1))} className="bg-gray-600 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-gray-500">-</button>
+          <input type="number" min="0" max="10" value={pont} onChange={(e) => setPont(Number(e.target.value))} className="flex-1 p-2 border border-gray-600 rounded-lg text-black bg-white text-4xl sm:text-5xl text-center font-black outline-none focus:ring-4 ring-blue-500" />
+          <button type="button" onClick={() => setPont(p => Math.min(10, p + 1))} className="bg-gray-600 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-gray-500">+</button>
         </div>
 
-        <button type="submit" className="bg-blue-600 hover:bg-blue-500 transition-colors text-white font-bold p-5 rounded-lg mt-6 text-xl shadow-lg shadow-blue-500/30 active:scale-95">
+        <button type="submit" className="bg-blue-600 hover:bg-blue-500 transition-colors text-white font-bold p-4 sm:p-5 rounded-lg mt-4 sm:mt-6 text-lg sm:text-xl shadow-lg shadow-blue-500/30 active:scale-95">
           {pont} PONT MENTÉSE
         </button>
       </form>
