@@ -34,3 +34,14 @@ export async function POST(request: Request) {
 
   return NextResponse.json({ success: true, message: 'Pont felhőbe mentve!' });
 }
+
+export async function DELETE() {
+  // A Supabase törléshez kell egy szűrő. Ezzel a trükkel az összes meglévő adatot kijelöljük és töröljük.
+  const { error } = await supabase.from('points').delete().neq('osztaly', 'NINCS_ILYEN_OSZTALY');
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true, message: 'Minden adat törölve a felhőből!' });
+}
