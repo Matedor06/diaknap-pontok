@@ -86,78 +86,84 @@ export default function TanarPage() {
   // 1. BEJELENTKEZŐ / JELSZÓ KÉPERNYŐ
   if (!loggedInStation) {
     return (
-      <main className="p-4 sm:p-8 max-w-md mx-auto mt-8 sm:mt-12">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Tanári Belépés</h1>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 bg-zinc-800 p-6 sm:p-8 rounded-xl shadow-lg border border-gray-700">
-          <label className="font-bold text-gray-200">Állomás jelszava (PIN kód):</label>
-          <input 
-            type="password" 
-            value={pin} 
-            onChange={(e: any) => setPin(e.target.value)} 
-            placeholder="****"
-            className="p-3 border rounded text-black font-bold text-center text-2xl tracking-widest outline-none focus:ring-4 ring-blue-500" 
-            autoFocus
-          />
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 transition-colors text-white font-bold p-4 rounded-lg mt-4 shadow-lg shadow-blue-500/30">
-            BELÉPÉS
-          </button>
-        </form>
-      </main>
+      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex flex-col">
+        <main className="p-4 sm:p-8 w-full max-w-md mx-auto mt-8 sm:mt-12">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Tanári Belépés</h1>
+          <form onSubmit={handleLogin} className="flex flex-col gap-4 bg-white dark:bg-zinc-800 p-6 sm:p-8 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700">
+            <label className="font-bold text-zinc-700 dark:text-zinc-200">Állomás jelszava (PIN kód):</label>
+            <input 
+              type="password" 
+              value={pin} 
+              onChange={(e: any) => setPin(e.target.value)} 
+              placeholder="****"
+              className="p-3 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white font-bold text-center text-2xl tracking-widest outline-none focus:ring-4 ring-blue-500" 
+              autoFocus
+            />
+            <button type="submit" className="bg-blue-600 hover:bg-blue-700 transition-colors text-white font-bold p-4 rounded-lg mt-4 shadow-lg shadow-blue-500/30">
+              BELÉPÉS
+            </button>
+          </form>
+        </main>
+      </div>
     );
   }
 
   // 2. ADMINISZTRÁTORI KÉPERNYŐ (Minden törlése)
   if (loggedInStation === 'ADMIN') {
     return (
-      <main className="p-4 sm:p-8 max-w-md mx-auto mt-8 sm:mt-12 text-center flex flex-col gap-6 items-center">
-        <div className="bg-red-900/20 p-6 sm:p-8 rounded-xl border border-red-500">
-          <h1 className="text-2xl sm:text-3xl font-black text-red-500 mb-2">VESZÉLYZÓNA</h1>
-          <p className="text-gray-300 mb-8">Ezen a felületen tudod véglegesen kitörölni a tesztelés alatt beírt pontokat. Csak a diáknap reggelén használd!</p>
-          
-          <button onClick={handleClearAll} className="bg-red-600 hover:bg-red-700 text-white p-5 font-bold rounded-lg shadow-xl shadow-red-600/50 w-full text-lg transition-transform active:scale-95">
-            MINDEN PONT TÖRLÉSE
+      <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex flex-col">
+        <main className="p-4 sm:p-8 w-full max-w-md mx-auto mt-8 sm:mt-12 text-center flex flex-col gap-6 items-center">
+          <div className="bg-red-50 dark:bg-red-900/20 p-6 sm:p-8 rounded-xl border border-red-200 dark:border-red-500">
+            <h1 className="text-2xl sm:text-3xl font-black text-red-600 dark:text-red-500 mb-2">VESZÉLYZÓNA</h1>
+            <p className="text-red-800 dark:text-gray-300 mb-8">Ezen a felületen tudod véglegesen kitörölni a tesztelés alatt beírt pontokat. Csak a diáknap reggelén használd!</p>
+            
+            <button onClick={handleClearAll} className="bg-red-600 hover:bg-red-700 text-white p-5 font-bold rounded-lg shadow-xl shadow-red-600/50 w-full text-lg transition-transform active:scale-95">
+              MINDEN PONT TÖRLÉSE
+            </button>
+          </div>
+          <button onClick={() => { setLoggedInStation(null); setPin(''); }} className="text-zinc-500 dark:text-gray-400 mt-4 hover:text-zinc-800 dark:hover:text-white underline">
+            ← Kijelentkezés
           </button>
-        </div>
-        <button onClick={() => { setLoggedInStation(null); setPin(''); }} className="text-gray-400 mt-4 hover:text-white underline">
-          ← Kijelentkezés
-        </button>
-      </main>
+        </main>
+      </div>
     );
   }
 
   // 3. SIKERES BEJELENTKEZÉS UTÁNI PONTOZÓ
   return (
-    <main className="p-4 sm:p-8 max-w-md mx-auto">
-      <div className="flex justify-between items-center mb-6 bg-zinc-900 p-4 rounded-lg border border-gray-700">
-        <h1 className="text-lg font-bold text-blue-400">{loggedInStation}</h1>
-        <button onClick={() => { setLoggedInStation(null); setPin(''); }} className="text-sm bg-gray-700 hover:bg-red-600 transition-colors px-3 py-2 rounded font-bold text-white">
-          Kilépés
-        </button>
-      </div>
-
-      <form onSubmit={submitPont} className="flex flex-col gap-4 bg-zinc-800 p-4 sm:p-6 rounded-xl shadow-lg border border-gray-700">
-        <label className="font-bold text-gray-200">Melyik osztály pontozod?</label>
-        <select value={osztaly} onChange={(e) => setOsztaly(e.target.value)} className="p-3 sm:p-4 border border-gray-600 rounded-lg text-black bg-white font-bold text-lg sm:text-xl outline-none focus:ring-4 ring-blue-500 cursor-pointer">
-          {['9.A', '9.B', '10.A', '10.B', '11.A', '11.B', '12.A', '12.B'].map(o => <option key={o}>{o}</option>)}
-        </select>
-
-        <label className="font-bold text-gray-200 mt-2 sm:mt-4">Kiosztott pont (0-10):</label>
-        <div className="flex items-center gap-2 sm:gap-4">
-          <button type="button" onClick={() => setPont(p => Math.max(0, p - 1))} className="bg-gray-600 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-gray-500">-</button>
-          <input type="number" min="0" max="10" value={pont} onChange={(e) => setPont(Number(e.target.value))} className="flex-1 p-2 border border-gray-600 rounded-lg text-black bg-white text-4xl sm:text-5xl text-center font-black outline-none focus:ring-4 ring-blue-500" />
-          <button type="button" onClick={() => setPont(p => Math.min(10, p + 1))} className="bg-gray-600 w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-gray-500">+</button>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 flex flex-col">
+      <main className="p-4 sm:p-8 w-full max-w-md mx-auto">
+        <div className="flex justify-between items-center mb-6 bg-white dark:bg-zinc-800 shadow-sm p-4 rounded-lg border border-zinc-200 dark:border-zinc-700">
+          <h1 className="text-lg font-bold text-blue-600 dark:text-blue-400">{loggedInStation}</h1>
+          <button onClick={() => { setLoggedInStation(null); setPin(''); }} className="text-sm bg-zinc-200 dark:bg-zinc-700 hover:bg-red-500 dark:hover:bg-red-600 transition-colors px-3 py-2 rounded font-bold text-zinc-800 dark:text-white">
+            Kilépés
+          </button>
         </div>
 
-        <button type="submit" className="bg-blue-600 hover:bg-blue-500 transition-colors text-white font-bold p-4 sm:p-5 rounded-lg mt-4 sm:mt-6 text-lg sm:text-xl shadow-lg shadow-blue-500/30 active:scale-95">
-          {pont} PONT MENTÉSE
-        </button>
-      </form>
-      
-      {uzenet && (
-        <div className="mt-6 p-4 border-l-4 border-green-500 bg-green-900/30 text-green-400 font-bold rounded shadow-lg text-center animate-pulse">
-          {uzenet}
-        </div>
-      )}
-    </main>
+        <form onSubmit={submitPont} className="flex flex-col gap-4 bg-white dark:bg-zinc-800 p-4 sm:p-6 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700">
+          <label className="font-bold text-zinc-700 dark:text-zinc-200">Melyik osztályt pontozod?</label>
+          <select value={osztaly} onChange={(e) => setOsztaly(e.target.value)} className="p-3 sm:p-4 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white font-bold text-lg sm:text-xl outline-none focus:ring-4 ring-blue-500 cursor-pointer">
+            {['9.A', '9.B', '10.A', '10.B', '11.A', '11.B', '12.A', '12.B'].map(o => <option key={o}>{o}</option>)}
+          </select>
+
+          <label className="font-bold text-zinc-700 dark:text-zinc-200 mt-2 sm:mt-4">Kiosztott pont (0-10):</label>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <button type="button" onClick={() => setPont(p => Math.max(0, p - 1))} className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-zinc-300 dark:hover:bg-zinc-600">-</button>
+            <input type="number" min="0" max="10" value={pont} onChange={(e) => setPont(Number(e.target.value))} className="flex-1 p-2 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-white text-4xl sm:text-5xl text-center font-black outline-none focus:ring-4 ring-blue-500" />
+            <button type="button" onClick={() => setPont(p => Math.min(10, p + 1))} className="bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full text-2xl font-bold hover:bg-zinc-300 dark:hover:bg-zinc-600">+</button>
+          </div>
+
+          <button type="submit" className="bg-blue-600 hover:bg-blue-500 transition-colors text-white font-bold p-4 sm:p-5 rounded-lg mt-4 sm:mt-6 text-lg sm:text-xl shadow-lg shadow-blue-500/30 active:scale-95">
+            {pont} PONT MENTÉSE
+          </button>
+        </form>
+        
+        {uzenet && (
+          <div className="mt-6 p-4 border-l-4 border-green-500 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 font-bold rounded shadow-lg text-center animate-pulse">
+            {uzenet}
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
