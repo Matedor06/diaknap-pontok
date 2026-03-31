@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     // 1. Megnézzük, van-e már rögzítve pont ennek az osztálynak, ezen a helyszínen
     const { data: existingData, error: searchError } = await supabase
       .from('points')
-      .select('id')
+      .select('osztaly')
       .eq('osztaly', body.osztaly)
       .eq('helyszin', body.helyszin);
 
@@ -35,11 +35,12 @@ export async function POST(request: Request) {
 
     // Ha az existingData tömb nem üres, akkor van már ilyen
     if (existingData && existingData.length > 0) {
-      // 2. HA VAN: Akkor UPDATE (Felülírás) az első találaton
+      // 2. HA VAN: Akkor UPDATE (Felülírás)
       const { error } = await supabase
         .from('points')
         .update({ pont: Number(body.pont) })
-        .eq('id', existingData[0].id);
+        .eq('osztaly', body.osztaly)
+        .eq('helyszin', body.helyszin);
 
       if (error) {
         console.error('Frissítési hiba:', error);
