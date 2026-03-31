@@ -63,9 +63,19 @@ export default function TanarPage() {
 
     const res = await fetch('/api/points', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ helyszin, osztaly, pont }),
     });
     
+    // Hibakeresés kliens oldalon, ha megint 500-ast dob:
+    if(!res.ok) {
+      const errorData = await res.json();
+      alert(`Szerver hiba: ${errorData.error || 'Ismeretlen hiba'}`);
+      return;
+    }
+
     if(res.ok) {
         setUzenet(`Sikeresen mentve: ${pont} pont a ${osztaly} osztálynak!`);
         setPont(10); // reset pont
